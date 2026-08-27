@@ -1,0 +1,300 @@
+<app-navbar
+  [isDarkMode]="isDarkMode()"
+  (toggleDarkMode)="toggleDarkMode()"
+  (navigate)="scrollToSection($event)"
+>
+</app-navbar>
+
+<main>
+  <!-- Hero Section -->
+  <section class="hero" [style.background-image]="'url(' + tripData.overview.heroImage + ')'">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <span class="badge">Trip Plan 2026</span>
+      <h1>{{ tripData.overview.title }}</h1>
+      <p class="hero-subtitle">
+        📍 {{ tripData.overview.location }} &nbsp;|&nbsp; 📅 {{ tripData.overview.startDate }} —
+        {{ tripData.overview.endDate }} &nbsp;|&nbsp; ⏱️ {{ tripData.overview.durationDays }} Days ·
+        {{ tripData.overview.durationNights }} Nights
+      </p>
+      <button class="btn-primary" (click)="scrollToSection('itinerary')">Lịch trình ↓</button>
+    </div>
+  </section>
+
+  <!-- Trip Overview Section -->
+  <section id="overview" class="section">
+    <div class="container">
+      <h2 class="section-title">Tổng quan chuyến đi</h2>
+      <p class="section-subtitle">Tóm tắt.</p>
+
+      <div class="overview-grid">
+        <div class="overview-card">
+          <div class="icon-wrapper">📅</div>
+          <div>
+            <span class="label">Duration</span>
+            <p class="value">
+              {{ tripData.overview.durationDays }} Days /
+              {{ tripData.overview.durationNights }} Nights
+            </p>
+          </div>
+        </div>
+
+        <div class="overview-card">
+          <div class="icon-wrapper">📍</div>
+          <div>
+            <span class="label">Destinations</span>
+            <p class="value">Hòn Sơn · Kiên Giang</p>
+          </div>
+        </div>
+
+        <div class="overview-card">
+          <div class="icon-wrapper">🏨</div>
+          <div>
+            <span class="label">Hotels</span>
+            <p class="value">{{ tripData.overview.hotels }}</p>
+          </div>
+        </div>
+
+        <div class="overview-card">
+          <div class="icon-wrapper">✈️</div>
+          <div>
+            <span class="label">Transportation</span>
+            <p class="value">{{ tripData.overview.transportation }}</p>
+          </div>
+        </div>
+
+        <div class="overview-card full-width">
+          <div class="icon-wrapper">💰</div>
+          <div>
+            <span class="label">Estimated Total Budget</span>
+            <p class="value highlight">{{ formatCurrency(tripData.overview.estimatedBudget) }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- E-Tickets & QR Codes Section -->
+  <section id="tickets" class="section">
+    <div class="container">
+      <h2 class="section-title">🎫 Boarding Passes & E-Tickets</h2>
+      <p class="section-subtitle">Danh sách mã QR vé xe & vé tàu cao tốc cho chuyến đi.</p>
+
+      <div class="tickets-grid">
+        @for (ticket of tripData.tickets; track ticket.id) {
+          <div class="ticket-card" [class.ferry-card]="ticket.type === 'ferry'">
+            <div class="ticket-header">
+              <span class="ticket-type">
+                {{ ticket.type === 'bus' ? '🚌' : '⛴️' }} {{ ticket.title }}
+              </span>
+              <span class="ticket-status confirmed">Đã xác nhận</span>
+            </div>
+
+            <div class="ticket-body">
+              <div class="ticket-info">
+                <h4>{{ ticket.provider }}</h4>
+                <p><strong>Tuyến:</strong> {{ ticket.route }}</p>
+                <p><strong>Khởi hành:</strong> {{ ticket.departureTime }}</p>
+
+                @if (ticket.seatNumber) {
+                  <p>
+                    <strong>Số ghế/giường:</strong>
+                    <span class="seat-tag">{{ ticket.seatNumber }}</span>
+                  </p>
+                }
+
+                <p>
+                  <strong>Mã vé:</strong> <span class="code">{{ ticket.bookingCode }}</span>
+                </p>
+              </div>
+
+              <div class="ticket-qr">
+                <img [src]="ticket.qrUrl" [alt]="ticket.title" loading="lazy" />
+                <span class="qr-hint">Quét mã kiểm tra</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Itinerary Section -->
+  <section id="itinerary" class="section bg-alt">
+    <div class="container">
+      <h2 class="section-title">Chi tiết lịch trình</h2>
+      <p class="section-subtitle">Chọn ngày để xem chi tiết.</p>
+
+      <!-- Day Navigation -->
+      <div class="day-nav">
+        @for (day of tripData.itinerary; track day.day) {
+          <button
+            class="day-btn"
+            [class.active]="activeDay() === day.day"
+            (click)="selectDay(day.day)"
+          >
+            <span class="day-num">DAY {{ day.day < 10 ? '0' + day.day : day.day }}</span>
+            <span class="day-date">{{ day.date }}</span>
+          </button>
+        }
+      </div>
+
+      <!-- Timeline Items -->
+      @if (currentDayItinerary(); as dayData) {
+        <div class="itinerary-box">
+          <div class="day-header">
+            <h3>Day {{ dayData.day }}: {{ dayData.title }}</h3>
+          </div>
+
+          <div class="timeline">
+            @for (act of dayData.activities; track act.id) {
+              <div class="timeline-item">
+                <div class="timeline-badge">{{ act.icon }}</div>
+                <div class="timeline-content">
+                  <div class="time-tag">
+                    {{ act.time }} {{ act.duration ? '(' + act.duration + ')' : '' }}
+                  </div>
+                  <h4 class="act-title">{{ act.title }}</h4>
+                  <p class="act-desc">{{ act.description }}</p>
+                  <span class="act-location">📍 {{ act.location }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Places to Visit Section -->
+  <section id="destinations" class="section">
+    <div class="container">
+      <h2 class="section-title">Places to Visit</h2>
+      <p class="section-subtitle">Featured destinations on this trip.</p>
+
+      <div class="places-grid">
+        @for (dest of tripData.destinations; track dest.id) {
+          <div class="place-card">
+            <div class="card-img-wrapper">
+              <img [src]="dest.imageUrl" [alt]="dest.name" loading="lazy" />
+              <span class="tag">{{ dest.category }}</span>
+            </div>
+            <div class="card-body">
+              <div class="card-header">
+                <h3>{{ dest.name }}</h3>
+                <span class="rating">⭐ {{ dest.rating }}</span>
+              </div>
+              <p class="location-text">📍 {{ dest.location }}</p>
+              <p class="desc">{{ dest.description }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Placeholder Section -->
+  <!-- Map Section -->
+  <section id="map" class="section bg-alt">
+    <div class="container">
+      <h2 class="section-title">Interactive Route Map</h2>
+      <p class="section-subtitle">Visual overview of key stops.</p>
+
+      <div class="map-container">
+        <iframe
+          title="Trip Map"
+          width="100%"
+          height="450"
+          style="border: 0; border-radius: var(--radius-lg)"
+          loading="lazy"
+          allowfullscreen
+          src="https://maps.google.com/maps?q=Hon%20Son%20Kien%20Giang%20Vietnam&t=&z=13&ie=UTF8&iwloc=&output=embed"
+        >
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Budget Section -->
+  <section id="budget" class="section">
+    <div class="container">
+      <h2 class="section-title">Trip Budget</h2>
+      <p class="section-subtitle">Estimated expense breakdown.</p>
+
+      <div class="budget-wrapper">
+        <div class="budget-items">
+          @for (item of tripData.budget; track item.category) {
+            <div class="budget-item">
+              <div class="budget-info">
+                <span>{{ item.icon }} {{ item.category }}</span>
+                <span class="amount">{{ formatCurrency(item.amount) }}</span>
+              </div>
+              <div class="progress-bar">
+                <div
+                  class="progress-fill"
+                  [style.width.%]="(item.amount / totalBudget()) * 100"
+                ></div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="budget-total-card">
+          <h3>Total Estimated Expense</h3>
+          <p class="total-amount">{{ formatCurrency(totalBudget()) }}</p>
+          <span class="sub-text">All estimated expenses included</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Packing Checklist & Notes Section -->
+  <section id="checklist" class="section bg-alt">
+    <div class="container two-col-grid">
+      <!-- Packing Checklist -->
+      <div class="checklist-box">
+        <h2 class="section-title">Packing Checklist</h2>
+        <div class="progress-header">
+          <span
+            >Progress: {{ completedChecklistCount() }} / {{ checklist().length }} completed
+          </span>
+          <!-- <span class="percent">{{ checklistProgressPercent() }}%</span> -->
+        </div>
+
+        <div class="progress-bar main-bar">
+          <div class="progress-fill" [style.width.%]="checklistProgressPercent()"></div>
+        </div>
+
+        <div class="checklist-items">
+          @for (item of checklist(); track item.id) {
+            <label class="check-item" [class.done]="item.completed">
+              <input
+                type="checkbox"
+                [checked]="item.completed"
+                (change)="toggleChecklistItem(item.id)"
+              />
+              <span class="custom-checkbox"></span>
+              <span class="item-label">{{ item.label }}</span>
+              <span class="cat-tag">{{ item.category }}</span>
+            </label>
+          }
+        </div>
+      </div>
+
+      <!-- Travel Notes -->
+      <div class="notes-box">
+        <h2 class="section-title">Travel Notes</h2>
+        <p class="section-subtitle">Quick reminders & booking details.</p>
+        <textarea
+          class="notes-input"
+          rows="10"
+          [ngModel]="notes()"
+          (ngModelChange)="updateNotes($event)"
+          placeholder="Type your trip notes here..."
+        ></textarea>
+      </div>
+    </div>
+  </section>
+</main>
+
+<app-footer></app-footer>

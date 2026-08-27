@@ -1,0 +1,254 @@
+@charset "UTF-8";
+/* Color Palette & CSS Variables */
+:root {
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --primary-color: #0284c7;
+  --primary-hover: #0369a1;
+  --accent-color: #10b981;
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html.dark {
+  --bg-main: #0f172a;
+  --bg-card: #1e293b;
+  --bg-glass: rgba(30, 41, 59, 0.85);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --primary-color: #38bdf8;
+  --primary-hover: #7dd3fc;
+  --accent-color: #34d399;
+  --border-color: #334155;
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  -webkit-transition: background-color var(--transition-normal), color var(--transition-normal);
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+body {
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Utilities */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.025em;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.badge {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: rgba(2, 132, 199, 0.1);
+  color: var(--primary-color);
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Tránh che mất tiêu đề section khi dùng fixed/sticky navbar */
+  scroll-padding-top: 80px;
+}
+
+/* Đảm bảo không bị chặn cuộn */
+body,
+main {
+  overflow-x: clip;
+  /* Thay vì dùng overflow: hidden */
+}
+
+/* ==========================================
+   BACKGROUND THƠ MỘNG BÌNH MINH & HOÀNG HÔN BIỂN
+   ========================================== */
+/* 1. Nền chuyển màu toàn trang (Light Mode) */
+body {
+  margin: 0;
+  min-height: 100vh;
+  /* Palette màu cát hồng, nắng ấm & biển xanh mộng mơ */
+  background: linear-gradient(135deg, #fff0f3 0%, #f2e9e1 25%, #e8f4f8 50%, #e0f2fe 75%, #f3e8ff 100%);
+  background-attachment: fixed;
+  color: #334155;
+  font-family: system-ui, -apple-system, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* 2. Nền chuyển màu toàn trang (Dark Mode - Đêm biển thơ mộng) */
+body.dark,
+body.dark-theme,
+.dark body {
+  /* Palette đêm trăng biển thơ mộng: Tím dạ quang, xanh thẫm & hồng huyền ảo */
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 35%, #1e293b 70%, #0f172a 100%);
+  background-attachment: fixed;
+  color: #f1f5f9;
+}
+
+/* 3. Tạo hiệu ứng quầng sáng mộng mơ (Aura Glow Background) */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  -webkit-filter: blur(90px);
+          filter: blur(90px);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.6;
+  -webkit-animation: floatAura 18s ease-in-out infinite alternate;
+          animation: floatAura 18s ease-in-out infinite alternate;
+}
+
+/* Quầng sáng 1: Hồng hoàng hôn góc trên */
+body::before {
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(251, 113, 133, 0.35) 0%, rgba(253, 164, 175, 0) 70%);
+  top: -100px;
+  left: -100px;
+}
+
+/* Quầng sáng 2: Xanh ngọc biển góc dưới */
+body::after {
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, rgba(125, 211, 252, 0) 70%);
+  bottom: -150px;
+  right: -100px;
+  -webkit-animation-delay: -9s;
+          animation-delay: -9s;
+}
+
+/* Animation chuyển động mềm mại cho background */
+@-webkit-keyframes floatAura {
+  0% {
+    -webkit-transform: translate(0, 0) scale(1);
+            transform: translate(0, 0) scale(1);
+  }
+  50% {
+    -webkit-transform: translate(80px, 50px) scale(1.15);
+            transform: translate(80px, 50px) scale(1.15);
+  }
+  100% {
+    -webkit-transform: translate(-40px, 80px) scale(0.95);
+            transform: translate(-40px, 80px) scale(0.95);
+  }
+}
+@keyframes floatAura {
+  0% {
+    -webkit-transform: translate(0, 0) scale(1);
+            transform: translate(0, 0) scale(1);
+  }
+  50% {
+    -webkit-transform: translate(80px, 50px) scale(1.15);
+            transform: translate(80px, 50px) scale(1.15);
+  }
+  100% {
+    -webkit-transform: translate(-40px, 80px) scale(0.95);
+            transform: translate(-40px, 80px) scale(0.95);
+  }
+}
+
+/* 4. Làm hiệu ứng các thẻ Section trong suốt nhẹ (Glassmorphism) */
+.section {
+  background: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.section.bg-alt {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Glassmorphism cho Dark Mode */
+.dark .section,
+body.dark-theme .section {
+  background: rgba(15, 23, 42, 0.4) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dark .section.bg-alt,
+body.dark-theme .section.bg-alt {
+  background: rgba(30, 41, 59, 0.3) !important;
+}
+
+/* Các Card hiển thị nổi bật trên nền thơ mộng */
+.overview-card,
+.place-card,
+.checklist-box,
+.notes-box,
+.itinerary-box,
+.budget-total-card {
+  background: rgba(255, 255, 255, 0.7) !important;
+  -webkit-backdrop-filter: blur(16px);
+          backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  -webkit-box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.06) !important;
+          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.06) !important;
+  border-radius: 20px !important;
+}
+
+.dark .overview-card,
+.dark .place-card,
+.dark .checklist-box,
+.dark .notes-box,
+.dark .itinerary-box,
+.dark .budget-total-card {
+  background: rgba(30, 41, 59, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  -webkit-box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2) !important;
+          box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2) !important;
+}
+/*# sourceMappingURL=styles.css.map */

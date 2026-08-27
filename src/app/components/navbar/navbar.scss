@@ -1,0 +1,115 @@
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--bg-glass);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color var(--transition-fast);
+
+    .nav-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 70px;
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--text-primary);
+
+        .highlight {
+            color: var(--primary-color);
+        }
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 2rem;
+
+        a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color var(--transition-fast);
+
+            &:hover {
+                color: var(--primary-color);
+            }
+        }
+    }
+
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .theme-toggle {
+        background: var(--bg-main);
+        border: 1px solid var(--border-color);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        transition: transform var(--transition-fast);
+
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+
+    .mobile-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+
+        span {
+            width: 24px;
+            height: 2px;
+            background-color: var(--text-primary);
+            border-radius: 2px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        .mobile-toggle {
+            display: flex;
+        }
+
+        .nav-links {
+            position: absolute;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            flex-direction: column;
+            padding: 1.5rem;
+            gap: 1.2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: none;
+
+            &.active {
+                display: flex;
+            }
+        }
+    }
+}
+.cursor-pointer {
+    cursor: pointer;
+}

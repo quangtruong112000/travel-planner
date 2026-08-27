@@ -1,0 +1,30 @@
+.footer {
+    border-top: 1px solid var(--border-color);
+    padding: 3rem 0;
+    background-color: var(--bg-card);
+    margin-top: 5rem;
+
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+
+    .footer-brand {
+        h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+        p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+    }
+
+    .footer-copy {
+        color: var(--text-secondary);
+        font-size: 0.875rem;
+    }
+}
