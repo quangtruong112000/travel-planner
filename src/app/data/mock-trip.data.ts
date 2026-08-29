@@ -10,7 +10,7 @@ export const HON_SON_TRAVEL_DATA: TripData = {
     durationNights: 2,
     hotels: 'ALU KORU - Hòn Sơn',
     transportation: 'Xe khách & Tàu cao tốc',
-    estimatedBudget: 3000000,
+    estimatedBudget: 5000000,
     currency: 'VND',
     heroImage: 'https://images.pexels.com/photos/24426544/pexels-photo-24426544.jpeg',
   },
@@ -93,7 +93,7 @@ export const HON_SON_TRAVEL_DATA: TripData = {
         },
         {
           id: 'act-103',
-          time: '08:30 - 12:00',
+          time: '08:30 - 11:00',
           title: 'Rạch Giá - Hòn Sơn',
           description: 'Về homestay cất vali, nhận xe, đi ăn sáng và checkin',
           location: 'Ăn sáng',
@@ -101,7 +101,7 @@ export const HON_SON_TRAVEL_DATA: TripData = {
           category: 'transport',
         },
         {
-          id: 'act-103',
+          id: 'act-104',
           time: '11:00 - 12:00',
           title: 'Ăn trưa',
           description: 'Thưởng thức hải sản tươi sống tại bến cảng',
@@ -110,7 +110,7 @@ export const HON_SON_TRAVEL_DATA: TripData = {
           category: 'food',
         },
         {
-          id: 'act-104',
+          id: 'act-105',
           time: '12:00 - 15:00',
           title: 'Nhận phòng KS > Nghỉ ngơi',
           description: 'Nhận phòng khách sạn, cất hành lý và nghỉ ngơi',
@@ -119,8 +119,8 @@ export const HON_SON_TRAVEL_DATA: TripData = {
           category: 'hotel',
         },
         {
-          id: 'act-105',
-          time: '16:00 - 18:00',
+          id: 'act-106',
+          time: '15:00 - 18:00',
           title: 'Chơi trò chơi trên biển',
           description: 'Tắm biển và tham gia trò chơi',
           location: 'Bè Chiều Chill',
