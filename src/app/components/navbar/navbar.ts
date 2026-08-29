@@ -16,6 +16,7 @@ export class NavbarComponent {
   onNavClick(href: string): void {
     const targetId = href.replace('#', '');
     this.navigate.emit(targetId);
+    this.mobileMenuOpen = false;
   }
 
   mobileMenuOpen = false;

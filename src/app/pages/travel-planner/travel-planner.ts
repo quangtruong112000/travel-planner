@@ -25,7 +25,7 @@ export class TravelPlannerComponent {
   notes = signal<string>(
     this.storage.getItem(
       'trip_notes',
-      'Remember to bring passport and power bank!\nHotel check-in starts at 14:00.',
+      `Đem theo CCCD\nVé tàu về là 12h\nTrả xe trước 11h30\nCheckout 10h\nCheckin 12h\nTới trước giờ khởi hành 30'`,
     ),
   );
 

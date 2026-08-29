@@ -20,11 +20,25 @@
         }
       </button>
 
-      <button class="mobile-toggle" (click)="toggleMenu()" aria-label="Toggle menu">
+      <button
+        class="mobile-toggle"
+        (click)="toggleMenu()"
+        aria-label="Toggle menu"
+        [class.open]="mobileMenuOpen"
+      >
         <span></span>
         <span></span>
         <span></span>
       </button>
+      <div class="mobile-navbar" [class.open-nav-links]="mobileMenuOpen">
+        <div class="nav-links-mobile">
+          @for (item of navItems; track item.href) {
+            <a (click)="onNavClick(item.href)" class="cursor-pointer mobile-link">{{
+              item.label
+            }}</a>
+          }
+        </div>
+      </div>
     </div>
   </div>
 </header>
