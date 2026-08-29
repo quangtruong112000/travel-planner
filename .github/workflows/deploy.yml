@@ -1,0 +1,35 @@
+name: Deploy Travel Planner to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+# Cấp quyền cho GitHub Action ghi dữ liệu lên branch gh-pages
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Angular App
+        run: npx ng build --base-href=/travel-planner/
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist/travel-planner/browser
+          branch: gh-pages
